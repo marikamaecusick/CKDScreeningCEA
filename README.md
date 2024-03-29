@@ -10,6 +10,10 @@ Our probabilistic sensitivity analysis (PSA) relies on 10,000 PSA parameter sets
 
 python PSA_ace_run_2021_overall.py -d "SIR_parameters.xlsx" -p "PSA.xlsx" -s "[YOUR_SAVENAME].xlsx" -sa "35" -si "0"
 
+#### For the screening strategies that only rely on ACE inhibitors and ARB therapy (including those that defer screening to older ages): 
+
+python PSA_ace_run_time_until.py -d "SIR_parameters.xlsx" -p "PSA_time_until.xlsx" -s "[YOUR_SAVENAME].xlsx" -sa "35" -si "0"
+
 - d: SIR parameter data set 
 - p: PSA input data set 
 - s: excel file to save to: ".xlsx" file 
@@ -19,6 +23,10 @@ python PSA_ace_run_2021_overall.py -d "SIR_parameters.xlsx" -p "PSA.xlsx" -s "[Y
 #### For the screening strategies that only rely on ACE inhibitors and ARB therapy + SGLT2 inhibitors: 
 
 python PSA_dapa_run_2021_overall.py -d "SIR_parameters.xlsx" -p "PSA.xlsx" -s "[YOUR_SAVENAME].xlsx" -sa "35" -si "0"
+
+#### For the screening strategies that only rely on ACE inhibitors and ARB therapy + SGLT2 inhibitors (including those that defer screening to older ages): 
+
+python PSA_dapa_run_time_until.py -d "SIR_parameters.xlsx" -p "PSA_time_until.xlsx" -s "[YOUR_SAVENAME].xlsx" -sa "35" -si "0"
 
 - d: SIR parameter data set 
 - p: PSA input data set 
