@@ -1,6 +1,10 @@
 # Cost-effectiveness analysis of population-wide screening for CKD 
 
-## This repository contains the data and code used to evaluate the cost-effectiveness of population-wide screening for chronic kidney disease. Our analysis entitled "[Cost-effectiveness of population-wide screening for chronic kidney disease](https://www.acpjournals.org/doi/abs/10.7326/m22-3228)" was published in the Annals of Internal Medicine in 2023. Since then, we have updated our analysis to evaluate the optimal screening initiation age. Our working paper is titled "When to start population-wide screening for CKD: a cost-effectiveness analysis." Special thanks to my co-authors Rebecca Tisdale, Glenn Chertow, Doug Owens, Joshua Salomon and Jeremy Goldhaber-Fiebert.
+## This repository contains the data and code used to evaluate the cost-effectiveness of population-wide screening for chronic kidney disease. Special thanks to my co-authors Rebecca Tisdale, Glenn Chertow, Doug Owens, Joshua Salomon and Jeremy Goldhaber-Fiebert.
+
+### Our analysis entitled "[Cost-effectiveness of population-wide screening for chronic kidney disease](https://www.acpjournals.org/doi/abs/10.7326/m22-3228)" was published in the Annals of Internal Medicine in 2023. 
+
+### Since then, we updated our analysis to evaluate the optimal screening initiation age. Our working paper is titled "When to start population-wide screening for CKD: a cost-effectiveness analysis." 
 
 Our code is written in python version 3.9.1. *We plan to update this GitHub with python virtual environment instructions to ensure package and version compatibility.*
 
