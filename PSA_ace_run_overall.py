@@ -1036,7 +1036,6 @@ START_INDEX = int(args.start_index)
 save_p_new = str(START_INDEX) + save_p
 
 
-
 male_life_table = pd.read_excel("Male.xlsx", engine="openpyxl")
 female_life_table = pd.read_excel("Female.xlsx", engine="openpyxl")
 

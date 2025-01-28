@@ -220,9 +220,9 @@ def create_transition_matrix(a, MALE):
             transition_matrix[i][i + 1] = p_alb * (1 - TREATED_PROB)
             transition_matrix[i][i + 16] = p_alb * (TREATED_PROB)
 
-            transition_matrix[i][i + 18] = p_egfr  
+            transition_matrix[i][i + 18] = p_egfr
 
-            transition_matrix[i][i + 19] = p_alb * p_egfr  
+            transition_matrix[i][i + 19] = p_alb * p_egfr
 
             transition_matrix[i][DEAD_INDEX] = calculate_hr_prob(
                 p_dead, HEALTH_STATES[i], HAZARDS_RATIOS, False, ACM_REDUCTION
@@ -230,12 +230,10 @@ def create_transition_matrix(a, MALE):
 
         ##Stage 1- 3b detected and treated
         if i > 29 and i < 42:
-            transition_matrix[i][i - 15] = p_disc  
+            transition_matrix[i][i - 15] = p_disc
 
-            transition_matrix[i][i + 1] = p_alb * (
-                1 - p_disc
-            )  
-            transition_matrix[i][i - 14] = p_alb * p_disc  
+            transition_matrix[i][i + 1] = p_alb * (1 - p_disc)
+            transition_matrix[i][i - 14] = p_alb * p_disc
 
             if HEALTH_STATES[i] not in NOT_TRUE_CKD_COLS_TREATED:
                 if (
@@ -244,22 +242,20 @@ def create_transition_matrix(a, MALE):
                     transition_matrix[i][i + 3] = reduction_rate2(
                         p_egfr, eGFR_REDUCTION_DAPA
                     ) * (1 - p_disc)
-                    
+
                     transition_matrix[i][i - 12] = reduction_rate2(
                         p_egfr, eGFR_REDUCTION_DAPA
                     ) * (p_disc)
-                    
 
                     transition_matrix[i][i + 4] = (
                         p_alb
                         * reduction_rate2(p_egfr, eGFR_REDUCTION_DAPA)
                         * (1 - p_disc)
                     )
-                    
+
                     transition_matrix[i][i - 11] = (
                         p_alb * reduction_rate2(p_egfr, eGFR_REDUCTION_DAPA) * (p_disc)
                     )
-                   
 
                     transition_matrix[i][DEAD_INDEX] = calculate_hr_prob(
                         p_dead, HEALTH_STATES[i], HAZARDS_RATIOS, True, ACM_REDUCTION
@@ -269,22 +265,20 @@ def create_transition_matrix(a, MALE):
                     transition_matrix[i][i + 3] = reduction_rate2(
                         p_egfr, eGFR_REDUCTION_ACE
                     ) * (1 - p_disc)
-                    
+
                     transition_matrix[i][i - 12] = reduction_rate2(
                         p_egfr, eGFR_REDUCTION_ACE
                     ) * (p_disc)
-                    
 
                     transition_matrix[i][i + 4] = (
                         p_alb
                         * reduction_rate2(p_egfr, eGFR_REDUCTION_ACE)
                         * (1 - p_disc)
                     )
-                    
+
                     transition_matrix[i][i - 11] = (
                         p_alb * reduction_rate2(p_egfr, eGFR_REDUCTION_ACE) * (p_disc)
                     )
-                   
 
                     transition_matrix[i][DEAD_INDEX] = calculate_hr_prob(
                         p_dead, HEALTH_STATES[i], HAZARDS_RATIOS, False, ACM_REDUCTION
@@ -292,25 +286,22 @@ def create_transition_matrix(a, MALE):
 
             else:
                 transition_matrix[i][i + 3] = p_egfr * (1 - p_disc)
-                
+
                 transition_matrix[i][i - 12] = p_egfr * p_disc
-                
+
                 transition_matrix[i][i + 4] = p_alb * p_egfr * (1 - p_disc)
-                
+
                 transition_matrix[i][i - 11] = p_alb * p_egfr * (p_disc)
-            
 
                 transition_matrix[i][DEAD_INDEX] = calculate_hr_prob(
                     p_dead, HEALTH_STATES[i], HAZARDS_RATIOS, False, ACM_REDUCTION
                 )
 
         if i == 42 or i == 43 or i == 44:
-            transition_matrix[i][i - 15] = p_disc  
+            transition_matrix[i][i - 15] = p_disc
 
-            transition_matrix[i][i + 1] = p_alb * (
-                1 - p_disc
-            )  
-            transition_matrix[i][i - 14] = p_alb * (p_disc)  
+            transition_matrix[i][i + 1] = p_alb * (1 - p_disc)
+            transition_matrix[i][i - 14] = p_alb * (p_disc)
 
             if "micro" in HEALTH_STATES[i] or "macro" in HEALTH_STATES[i]:
                 transition_matrix[i][i + 3] = reduction_rate2(
@@ -333,7 +324,7 @@ def create_transition_matrix(a, MALE):
                     p_dead, HEALTH_STATES[i], HAZARDS_RATIOS, False, ACM_REDUCTION
                 )
 
-        # KF PRE-KRT 
+        # KF PRE-KRT
         if i == 45 or i == 46 or i == 47:
             transition_matrix[i][i + 1] = p_alb
 
@@ -412,8 +403,8 @@ def run_model(male, screening, calibration_targets):
 
     detected_count[0] = newly_detected
     treated_count[0] = newly_treated
-    kf_incidence[0] = 0  
-    misdetected_count[0] = false_positive_prop  
+    kf_incidence[0] = 0
+    misdetected_count[0] = false_positive_prop
     mistreated_count[0] = mistreated
     abnormal_detected_count[0] = abnormal_ckd_count
     total_screened_count[0] = total_screened
@@ -440,7 +431,7 @@ def run_model(male, screening, calibration_targets):
                 x2 = transition_matrix[d][treated_cols_list]
                 detected_trk = detected_trk + sum(x * this_starting_distribution[d])
                 treated_trk = treated_trk + sum(x2 * this_starting_distribution[d])
-           
+
         else:
             transition_matrix = create_transition_matrix(
                 int(STARTING_AGE + i * CYCLE_LENGTH), male
@@ -458,7 +449,6 @@ def run_model(male, screening, calibration_targets):
                 x2 = transition_matrix[d][treated_cols_list]
                 detected_trk = detected_trk + sum(x * new_distribution[d])
                 treated_trk = treated_trk + sum(x2 * new_distribution[d])
-       
 
             if screening == True and i in SCREENING_AFTER_ITERATIONS:
                 (
@@ -477,7 +467,7 @@ def run_model(male, screening, calibration_targets):
         detected_count[i + 1] = newly_detected + detected_trk
         treated_count[i + 1] = newly_treated + treated_trk
         kf_incidence[i + 1] = kf_count
-        misdetected_count[i + 1] = false_positive_prop  
+        misdetected_count[i + 1] = false_positive_prop
         mistreated_count[i + 1] = mistreated
         abnormal_detected_count[i + 1] = abnormal_ckd_count
         total_screened_count[i + 1] = total_screened
@@ -522,8 +512,6 @@ def apply_screening(distribution):
             "notdetected" in HEALTH_STATES[j]
             and HEALTH_STATES[j] not in NOT_TRUE_CKD_COLS2
         ):
-            
-
             this_detection_stage = (
                 HEALTH_STATES[j].split("_notdetected")[0] + "_detected"
             )
@@ -608,8 +596,6 @@ def apply_screening(distribution):
                 + newly_detected_untreated
             )
 
-
-
     return (
         distribution,
         correctly_detected_count + incorrect_detected_count,
@@ -663,7 +649,6 @@ def transform_distributions(trace, do_male, screening):
                 * BASELINE_MULTIPLIER
             )
         else:
-            
             this_age_qaly = female_life_table[
                 female_life_table["Age"] == AGE_LIST[current_age]
             ]["age_qaly"].iloc[0]
@@ -735,8 +720,6 @@ def transform_distributions(trace, do_male, screening):
                         this_cycle_cost_detected = (
                             this_cycle_cost_detected + DAPA_COST * trace[j].iloc[i]
                         )
-
-            
 
         if screening == True and i in SCREENING_AFTER_ITERATIONS_C:
             this_cycle_COST = (
@@ -1424,9 +1407,7 @@ for j in range(START_INDEX, START_INDEX + 1000):
     IMMEDIATE_TREATMENT = dict()
     for s in HEALTH_STATES:
         if "No CKD" in s:
-            IMMEDIATE_TREATMENT[s] = (
-                0  
-            )
+            IMMEDIATE_TREATMENT[s] = 0
         if "Stage_1" in s:
             IMMEDIATE_TREATMENT[s] = results_df["treatment_stage_1"].iloc[this_index]
         if "Stage_2" in s:
@@ -1439,9 +1420,8 @@ for j in range(START_INDEX, START_INDEX + 1000):
     PROB_DISCONTINUE = results_df["discontinue"].iloc[this_index]
 
     PROB_DISCONTINUE2 = results_df["SGLT2_discontinue"].iloc[this_index]
- 
 
-    TREATED_PROB = results_df["treatment"].iloc[this_index] 
+    TREATED_PROB = results_df["treatment"].iloc[this_index]
 
     CYCLE_LENGTH = 1 / 4
 
@@ -1481,7 +1461,7 @@ for j in range(START_INDEX, START_INDEX + 1000):
     SCREENING_COST = results_df["screening_cost"].iloc[this_index]
     SERUM_CR = results_df["eGFR_cost"].iloc[this_index]
     ULTRASOUND = results_df["ultrasound_cost"].iloc[this_index]
-    OFFICE_VISIT = 0  
+    OFFICE_VISIT = 0
 
     HAZARDS_RATIOS = dict()
 
@@ -1740,82 +1720,46 @@ for j in range(START_INDEX, START_INDEX + 1000):
     ACE_COSTS = results_df["ACE cost"].iloc[this_index] * 3
     DAPA_COST = results_df["dapa cost"].iloc[this_index] * 3
     STAGE_COSTS = dict()
-    STAGE_COSTS["No CKD_notdetected"] = (
-        0  
-    )
-    STAGE_COSTS["No CKD_detected"] = (
-        0  
-    )
-    STAGE_COSTS["No CKD_detected_treated"] = (
-        0  
-    )
-    STAGE_COSTS["Stage_1_micro_detected"] = (
-        0  
-    )
-    STAGE_COSTS["Stage_1_macro_detected"] = (
-        0  
-    )
-    STAGE_COSTS["Stage_1_micro_detected_treated"] = (
-        0 
-    )
-    STAGE_COSTS["Stage_1_macro_detected_treated"] = (
-        0  
-    )
-    STAGE_COSTS["Stage_1_micro_notdetected"] = (
-        0  
-    )
-    STAGE_COSTS["Stage_1_macro_notdetected"] = (
-        0  
-    )
+    STAGE_COSTS["No CKD_notdetected"] = 0
+    STAGE_COSTS["No CKD_detected"] = 0
+    STAGE_COSTS["No CKD_detected_treated"] = 0
+    STAGE_COSTS["Stage_1_micro_detected"] = 0
+    STAGE_COSTS["Stage_1_macro_detected"] = 0
+    STAGE_COSTS["Stage_1_micro_detected_treated"] = 0
+    STAGE_COSTS["Stage_1_macro_detected_treated"] = 0
+    STAGE_COSTS["Stage_1_micro_notdetected"] = 0
+    STAGE_COSTS["Stage_1_macro_notdetected"] = 0
 
-    STAGE_COSTS["Stage_2_micro_detected"] = (
-        0  
-    )
-    STAGE_COSTS["Stage_2_macro_detected"] = (
-        0  
-    )
-    STAGE_COSTS["Stage_2_micro_detected_treated"] = (
-        0  
-    )
-    STAGE_COSTS["Stage_2_macro_detected_treated"] = (
-        0  
-    )
+    STAGE_COSTS["Stage_2_micro_detected"] = 0
+    STAGE_COSTS["Stage_2_macro_detected"] = 0
+    STAGE_COSTS["Stage_2_micro_detected_treated"] = 0
+    STAGE_COSTS["Stage_2_macro_detected_treated"] = 0
 
-    STAGE_COSTS["Stage_2_no_albumin_notdetected"] = (
-        0  
-    )
-    STAGE_COSTS["Stage_2_no_albumin_detected"] = (
-        0  
-    )
-    STAGE_COSTS["Stage_2_no_albumin_detected_treated"] = (
-        0  
-    )
-    STAGE_COSTS["Stage_2_micro_notdetected"] = (
-        0  
-    )
-    STAGE_COSTS["Stage_2_macro_notdetected"] = (
-        0  
-    )
+    STAGE_COSTS["Stage_2_no_albumin_notdetected"] = 0
+    STAGE_COSTS["Stage_2_no_albumin_detected"] = 0
+    STAGE_COSTS["Stage_2_no_albumin_detected_treated"] = 0
+    STAGE_COSTS["Stage_2_micro_notdetected"] = 0
+    STAGE_COSTS["Stage_2_macro_notdetected"] = 0
 
     STAGE_COSTS["Stage_3a_no_albumin_detected"] = (
         results_df["Stage3a_overall_cost"].iloc[this_index] * 3
-    ) 
+    )
     STAGE_COSTS["Stage_3a_micro_detected"] = (
         results_df["Stage3a_overall_cost"].iloc[this_index] * 3
-    )  
+    )
     STAGE_COSTS["Stage_3a_macro_detected"] = (
         results_df["Stage3a_overall_cost"].iloc[this_index] * 3
-    )  
+    )
 
     STAGE_COSTS["Stage_3a_no_albumin_detected_treated"] = (
         results_df["Stage3a_overall_cost"].iloc[this_index] * 3
-    )  
+    )
     STAGE_COSTS["Stage_3a_micro_detected_treated"] = (
         results_df["Stage3a_overall_cost"].iloc[this_index] * 3
-    )  
+    )
     STAGE_COSTS["Stage_3a_macro_detected_treated"] = (
         results_df["Stage3a_overall_cost"].iloc[this_index] * 3
-    )  
+    )
 
     STAGE_COSTS["Stage_3a_no_albumin_notdetected"] = (
         results_df["Stage3a_DM_overall_cost"].iloc[this_index] * 3
@@ -1829,23 +1773,23 @@ for j in range(START_INDEX, START_INDEX + 1000):
 
     STAGE_COSTS["Stage_3b_no_albumin_detected"] = (
         results_df["Stage3b_overall_cost"].iloc[this_index] * 3
-    )  
+    )
     STAGE_COSTS["Stage_3b_micro_detected"] = (
         results_df["Stage3b_overall_cost"].iloc[this_index] * 3
-    )  
+    )
     STAGE_COSTS["Stage_3b_macro_detected"] = (
         results_df["Stage3b_overall_cost"].iloc[this_index] * 3
-    )  
+    )
 
     STAGE_COSTS["Stage_3b_no_albumin_detected_treated"] = (
         results_df["Stage3b_overall_cost"].iloc[this_index] * 3
-    )  
+    )
     STAGE_COSTS["Stage_3b_micro_detected_treated"] = (
         results_df["Stage3b_overall_cost"].iloc[this_index] * 3
-    )  
+    )
     STAGE_COSTS["Stage_3b_macro_detected_treated"] = (
         results_df["Stage3b_overall_cost"].iloc[this_index] * 3
-    )  
+    )
     STAGE_COSTS["Stage_3b_no_albumin_notdetected"] = (
         results_df["Stage3b_DM_overall_cost"].iloc[this_index] * 3
     )
@@ -1858,20 +1802,20 @@ for j in range(START_INDEX, START_INDEX + 1000):
 
     STAGE_COSTS["Stage_4_no_albumin_detected_treated"] = (
         results_df["Stage4_overall_cost"].iloc[this_index] * 3
-    )  
+    )
     STAGE_COSTS["Stage_4_micro_detected_treated"] = (
         results_df["Stage4_overall_cost"].iloc[this_index] * 3
-    ) 
+    )
     STAGE_COSTS["Stage_4_macro_detected_treated"] = (
         results_df["Stage4_overall_cost"].iloc[this_index] * 3
-    )  
+    )
 
     STAGE_COSTS["Stage_4_no_albumin_detected"] = (
         results_df["Stage4_overall_cost"].iloc[this_index] * 3
-    ) 
+    )
     STAGE_COSTS["Stage_4_micro_detected"] = (
         results_df["Stage4_overall_cost"].iloc[this_index] * 3
-    ) 
+    )
     STAGE_COSTS["Stage_4_macro_detected"] = (
         results_df["Stage4_overall_cost"].iloc[this_index] * 3
     )
@@ -1888,13 +1832,13 @@ for j in range(START_INDEX, START_INDEX + 1000):
 
     STAGE_COSTS["KF_PRE_KRT_no_albumin"] = (
         results_df["Stage4_overall_cost"].iloc[this_index] * 3
-    )  
+    )
     STAGE_COSTS["KF_PRE_KRT_micro"] = (
         results_df["Stage4_overall_cost"].iloc[this_index] * 3
-    )  
+    )
     STAGE_COSTS["KF_PRE_KRT_macro"] = (
         results_df["Stage4_overall_cost"].iloc[this_index] * 3
-    )  
+    )
     STAGE_COSTS["KF_no_albumin"] = (
         results_df["Stage5_overall_cost"].iloc[this_index] * 3
     )
@@ -1946,7 +1890,6 @@ for j in range(START_INDEX, START_INDEX + 1000):
         * (results_df["non diabetic kidney HR"].iloc[this_index]),
     )
 
-
     eGFR_REDUCTION_ACE = min(1, results_df["eGFR_reduction"].iloc[this_index])
 
     ACM_REDUCTION_dict = dict()
@@ -1989,7 +1932,6 @@ for j in range(START_INDEX, START_INDEX + 1000):
         + (1 - results_df["diabetic_prevalence_70_79"].iloc[this_index])
         * (results_df["non diabetic ACM HR"].iloc[this_index]),
     )
-
 
     STARTING_AGE_BASELINE = 35
     NUM_ITERATIONS = int((100 - STARTING_AGE_BASELINE) / CYCLE_LENGTH)
@@ -2151,7 +2093,6 @@ for j in range(START_INDEX, START_INDEX + 1000):
     )
     this_tr_arr.append(placebo_male_trace[STAGES_WITH_ACE].iloc[0].sum())
 
-
     trace_results_tracker.append(this_tr_arr)
 
     for scr_option in SCREENING_AFTER_OPTIONS:
@@ -2163,7 +2104,6 @@ for j in range(START_INDEX, START_INDEX + 1000):
                 CAN_TEST = False
 
         if CAN_TEST == True:
-
             SCREENING_AFTER_ITERATIONS = [max(x * 4 - 1, 0) for x in SCREENING_AFTER]
             SCREENING_AFTER_ITERATIONS_C = [max(x * 4, 0) for x in SCREENING_AFTER]
 
@@ -2201,7 +2141,6 @@ for j in range(START_INDEX, START_INDEX + 1000):
             screening_male_trace["treated with dapa"] = screening_male_trace[
                 STAGES_WITH_DAPA
             ].sum(axis=1) / (1 - screening_male_trace["Dead"])
-
 
             this_tr_arr = []
             this_tr_arr.append(results_df["index"].iloc[j])
