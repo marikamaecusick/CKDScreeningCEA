@@ -12,7 +12,12 @@
 
 ### Instructions for running the code:
 
-Our code is written in python version 3.9.1. *We plan to update this GitHub with python virtual environment instructions to ensure package and version compatibility.*
+Our code is written in python version 3.12.1. Create the conda environment with the following commands
+
+```         
+conda env create -f environment.yml
+conda activate ckd-env 
+```
 
 We conducted our analysis probabilistically with a total of 10,000 parameter sets. We ran a bash script which runs the python code in increments of 1,000 iterations.
 
@@ -20,7 +25,9 @@ We conducted our analysis probabilistically with a total of 10,000 parameter set
 
 **For the screening strategies that only rely on ACE inhibitors and ARB therapy:**
 
-`python PSA_ace_run_overall.py -d "SIR_parameters.xlsx" -p "PSA.xlsx" -s "[YOUR_SAVENAME].xlsx" -sa "35" -si "0"`
+```         
+python PSA_ace_run_overall.py -d "SIR_parameters.xlsx" -p "PSA.xlsx" -s "[YOUR_SAVENAME].xlsx" -sa "35" -si "0"
+```
 
 -   d: SIR parameter data set
 -   p: PSA input data set
@@ -30,7 +37,9 @@ We conducted our analysis probabilistically with a total of 10,000 parameter set
 
 **For the screening strategies that only rely on ACE inhibitors and ARB therapy + SGLT2 inhibitors:**
 
-`python PSA_dapa_run_overall.py -d "SIR_parameters.xlsx" -p "PSA.xlsx" -s "[YOUR_SAVENAME].xlsx" -sa "35" -si "0"`
+```         
+python PSA_dapa_run_overall.py -d "SIR_parameters.xlsx" -p "PSA.xlsx" -s "[YOUR_SAVENAME].xlsx" -sa "35" -si "0"
+```
 
 -   d: SIR parameter data set
 -   p: PSA input data set
@@ -42,7 +51,9 @@ We conducted our analysis probabilistically with a total of 10,000 parameter set
 
 **For the screening strategies that only rely on ACE inhibitors and ARB therapy:**
 
-`python PSA_ace_run_race_ethnic_groups.py -d "SIR_parameters_Hispanic.xlsx" -p "PSA_Hispanic.xlsx" -s "[YOUR_SAVENAME].xlsx" -r "H" -sa "35" -si "0"`
+```         
+python PSA_ace_run_race_ethnic_groups.py -d "SIR_parameters_Hispanic.xlsx" -p "PSA_Hispanic.xlsx" -s "[YOUR_SAVENAME].xlsx" -r "H" -sa "35" -si "0"
+```
 
 -   d: SIR parameter data set
     -   Calls files from the `SIR_PSA_inputs_race_ethnic_groups` folder (e.g., `SIR_parameters_Hispanic.xlsx`)
@@ -53,7 +64,11 @@ We conducted our analysis probabilistically with a total of 10,000 parameter set
 -   sa: model starting age, choose between "35", "45", "55", "65", and "75"
 -   si: starting index, choose between "0", "1000", "2000", "3000", "4000", "5000", "6000", "7000", "8000", "9000" (The file will run 1,000 iterations at a time)
 
-`python PSA_dapa_run_race_ethnic_groups.py -d "SIR_parameters_Hispanic.xlsx" -p "PSA_Hispanic.xlsx" -s "[YOUR_SAVENAME].xlsx" -r "H" -sa "35" -si "0"`
+**For the screening strategies that only rely on ACE inhibitors and ARB therapy + SGLT2 inhibitors:**
+
+```         
+python PSA_dapa_run_race_ethnic_groups.py -d "SIR_parameters_Hispanic.xlsx" -p "PSA_Hispanic.xlsx" -s "[YOUR_SAVENAME].xlsx" -r "H" -sa "35" -si "0"
+```
 
 -   d: SIR parameter data set
     -   Calls files from the `SIR_PSA_inputs_race_ethnic_groups` folder (e.g., `SIR_parameters_Hispanic.xlsx`)
