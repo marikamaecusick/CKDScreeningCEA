@@ -1123,8 +1123,8 @@ START_INDEX = int(args.start_index)
 save_p_new = str(START_INDEX) + save_p
 
 
-male_life_table = pd.read_excel("Male.xlsx", engine="openpyxl")
-female_life_table = pd.read_excel("Female.xlsx", engine="openpyxl")
+male_life_table = pd.read_excel("2019 Life Tables/Male.xlsx", engine="openpyxl")
+female_life_table = pd.read_excel("2019 Life Tables/Female.xlsx", engine="openpyxl")
 
 
 male_life_table = convert_life_cycles(male_life_table)
